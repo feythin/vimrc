@@ -6,13 +6,26 @@ set nocompatible
 "vim 插件管理
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+" vim plugin bundle control, command model
+"     :BundleInstall     install 安装配置的插件
+"     :BundleInstall!    update  更新
+"     :BundleClean       remove plugin not in list 删除本地无用插件
 Bundle 'gmarik/vundle'
+
 Bundle 'DoxygenToolkit.vim'
 Bundle 'scrooloose/syntastic'
 " 主题 molokai
 Bundle 'tomasr/molokai'
 " monokai原始背景色
 let g:molokai_original = 1
+" 历史编辑
+Bundle 'mbbill/undotree'
+" 自动补全单引号，双引号等
+Bundle 'Raimondi/delimitMate'
+" ###### Markdown #########
+Bundle 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled=1
+
 
 "语法检测设置
 filetype    on                      " 检测打开文件的类型
@@ -47,16 +60,18 @@ set listchars=tab:▸\ ,trail:▫       " 指定Tab和结尾空白字符
 set number                          " 显示行号
 
 " 状态栏/标尺
-set ruler                           " 显示光标所在位置
+set ruler                           " 显示行号和列号
 set cursorline                      " 高亮当前行
 set showcmd                         " 再屏幕最后一行显示命令
 set laststatus=2                    " 始终显示状态栏
 set cmdheight=1                     " 命令行使用的屏幕行数
+"set statusline=%f%m%r%h%w\ [TYPE=%Y]\ [%{&fileencoding?&fileencoding:&encoding}/%{&ff}]\ [POS=%04l,%04v][%p%%]\ [LEN=%L] 
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %l:%c\ \(%p%%\)%)
 
 "搜索和匹配
 set showmatch                       " 高亮显示匹配的括号
 set matchtime=5                     " 匹配括号高亮的时间(单位是十分之一秒)
-set ignorecase                      " 搜索时忽略大小写
+set ignorecase                      " 搜行号和列号写
 set smartcase                       " 如果搜索模式包含大写字符，不使用'ignorecase'选项
 set hlsearch                        " 高亮被搜索的内容
 set incsearch                       " 增量搜索
@@ -73,8 +88,9 @@ autocmd BufReadPost *
             \ if line("'\"") > 1 && line("'\"") <= line("$") |
             \   exe "normal! g'\"" |
             \ endif
+" set paste模式
+map <Leader>p      :set paste<cr>
 
-"python的基础设定
 "let g:python_highlight_all                  = 1
 "let g:python_highlight_builtin_funcs        = 1
 "let g:python_highlight_exceptions           = 1
@@ -82,9 +98,9 @@ autocmd BufReadPost *
 "let g:python_highlight_string_formatting    = 1
 
 " DoxygenToolkit快捷键
-map da      :DoxAuthor<cr>
-map df      :Dox<cr>
-map db      :DoxBlock<cr>
+map <Leader>da      :DoxAuthor<cr>
+map <Leader>df      :Dox<cr>
+map <Leader>db      :DoxBlock<cr>
 
 " DoxygenToolkit.vim  文档插件
 " :DoxLic        插入License信息
