@@ -2,6 +2,7 @@
 安装插件和依赖
 
     yum install -y cmake
+    yum install -y gcc-c++
     
     yum install -y python-devel
     
